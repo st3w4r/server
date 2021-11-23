@@ -114,11 +114,19 @@ class PBBLSTest(unittest.TestCase):
         self.assertIsNotNone(output0)
         self.assertIsNotNone(output1)
 
-        expected_output_0 = from_dlpack(input0_pb.to_dlpack()).to('cpu') + from_dlpack(input1_pb.to_dlpack()).to('cpu')
-        expected_output_1 = from_dlpack(input0_pb.to_dlpack()).to('cpu') - from_dlpack(input1_pb.to_dlpack()).to('cpu')
+        expected_output_0 = from_dlpack(
+            input0_pb.to_dlpack()).to('cpu') + from_dlpack(
+                input1_pb.to_dlpack()).to('cpu')
+        expected_output_1 = from_dlpack(
+            input0_pb.to_dlpack()).to('cpu') - from_dlpack(
+                input1_pb.to_dlpack()).to('cpu')
 
-        self.assertTrue(torch.all(expected_output_0 == from_dlpack(output0.to_dlpack()).to('cpu')))
-        self.assertTrue(torch.all(expected_output_1 == from_dlpack(output1.to_dlpack()).to('cpu')))
+        self.assertTrue(
+            torch.all(expected_output_0 == from_dlpack(output0.to_dlpack()).to(
+                'cpu')))
+        self.assertTrue(
+            torch.all(expected_output_1 == from_dlpack(output1.to_dlpack()).to(
+                'cpu')))
 
     def test_gpu_bls(self):
         for input0_device in [True, False]:
@@ -160,6 +168,7 @@ class PBBLSTest(unittest.TestCase):
 
 
 class TritonPythonModel:
+
     def execute(self, requests):
         responses = []
         for _ in requests:

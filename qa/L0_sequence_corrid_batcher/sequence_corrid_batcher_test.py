@@ -25,15 +25,12 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
+
 sys.path.append("../common")
 
-from builtins import range
-from builtins import str
-from future.utils import iteritems
 import os
 import time
 import threading
-import traceback
 import unittest
 import numpy as np
 import test_util as tu
@@ -106,11 +103,11 @@ class SequenceCorrIDBatcherTest(su.SequenceBatcherTestUtil):
 
                 # Need scheduler to wait for queue to contain all
                 # inferences for both sequences.
-                self.assertTrue("TRITONSERVER_DELAY_SCHEDULER" in os.environ)
+                self.assertIn("TRITONSERVER_DELAY_SCHEDULER", os.environ)
                 self.assertEqual(
                     int(os.environ["TRITONSERVER_DELAY_SCHEDULER"]), 12)
-                self.assertTrue(
-                    "TRITONSERVER_BACKLOG_DELAY_SCHEDULER" in os.environ)
+                self.assertIn("TRITONSERVER_BACKLOG_DELAY_SCHEDULER",
+                              os.environ)
                 self.assertEqual(
                     int(os.environ["TRITONSERVER_BACKLOG_DELAY_SCHEDULER"]), 0)
 

@@ -25,10 +25,9 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
+
 sys.path.append("../common")
 
-from builtins import range
-from future.utils import iteritems
 import numpy as np
 import os
 import unittest
@@ -71,7 +70,7 @@ class ServerMetadataTest(tu.TestResultCollector):
                                      server_metadata['version'])
                     self.assertEqual("triton", server_metadata['name'])
                     for ext in extensions:
-                        self.assertTrue(ext in server_metadata['extensions'])
+                        self.assertIn(ext, server_metadata['extensions'])
 
                     self.assertEqual(model_name, model_metadata['name'])
                 else:
@@ -79,7 +78,7 @@ class ServerMetadataTest(tu.TestResultCollector):
                                      server_metadata.version)
                     self.assertEqual("triton", server_metadata.name)
                     for ext in extensions:
-                        self.assertTrue(ext in server_metadata.extensions)
+                        self.assertIn(ext, server_metadata.extensions)
 
                     self.assertEqual(model_name, model_metadata.name)
         except InferenceServerException as ex:
@@ -109,7 +108,7 @@ class ServerMetadataTest(tu.TestResultCollector):
                                      server_metadata.version)
                     self.assertEqual("triton", server_metadata.name)
 
-                model_metadata = triton_client.get_model_metadata(model_name)
+                triton_client.get_model_metadata(model_name)
                 self.assertTrue(False, "expected unknown model failure")
         except InferenceServerException as ex:
             self.assertTrue(ex.message().startswith(
@@ -130,8 +129,7 @@ class ServerMetadataTest(tu.TestResultCollector):
                 self.assertTrue(triton_client.is_server_live())
                 self.assertTrue(triton_client.is_server_ready())
 
-                model_metadata = triton_client.get_model_metadata(
-                    model_name, model_version="99")
+                triton_client.get_model_metadata(model_name, model_version="99")
                 self.assertTrue(False, "expected unknown model version failure")
         except InferenceServerException as ex:
             self.assertTrue(ex.message().startswith(
@@ -536,9 +534,9 @@ class ModelMetadataTest(tu.TestResultCollector):
                                     "unexpected infer stats for the model that is not ready"
                                 )
                             except InferenceServerException as ex:
-                                self.assertTrue(
-                                    "requested model version is not available for model"
-                                    in str(ex))
+                                self.assertIn(
+                                    "requested model version is not available for model",
+                                    str(ex))
 
             except InferenceServerException as ex:
                 self.assertTrue(False, "unexpected error {}".format(ex))

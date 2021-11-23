@@ -834,7 +834,8 @@ RUN apt-get update && \
             curl \
             {ort_dependencies} {pytorch_dependencies} && \
     rm -rf /var/lib/apt/lists/*
-'''.format(gpu_enabled=gpu_enabled, ort_dependencies=ort_dependencies,
+'''.format(gpu_enabled=gpu_enabled,
+           ort_dependencies=ort_dependencies,
            pytorch_dependencies=pytorch_dependencies)
 
     if enable_gpu:
@@ -1012,13 +1013,17 @@ def container_build(images, backends, repoagents, endpoints):
 
         # Need to extract env from the base image so that we can
         # access library versions.
-        buildbase_env_filepath = os.path.join(FLAGS.build_dir, 'buildbase_env');
+        buildbase_env_filepath = os.path.join(FLAGS.build_dir, 'buildbase_env')
         with open(buildbase_env_filepath, 'w') as f:
             if target_platform() == 'windows':
-                envargs = ['docker', 'run', '--rm', 'tritonserver_buildbase',
-                           'cmd.exe', '/c', 'set']
+                envargs = [
+                    'docker', 'run', '--rm', 'tritonserver_buildbase',
+                    'cmd.exe', '/c', 'set'
+                ]
             else:
-                envargs = ['docker', 'run', '--rm', 'tritonserver_buildbase', 'env']
+                envargs = [
+                    'docker', 'run', '--rm', 'tritonserver_buildbase', 'env'
+                ]
             log_verbose('buildbase env {}'.format(envargs))
             p = subprocess.Popen(envargs, stdout=f)
             p.wait()
@@ -1039,10 +1044,11 @@ def container_build(images, backends, repoagents, endpoints):
         # that the build.py execution within the container should set
         # the corresponding variables in cmake invocation.
         dockerrunenvargs = []
-        for k in [ 'TRT_VERSION', 'DALI_VERSION' ]:
+        for k in ['TRT_VERSION', 'DALI_VERSION']:
             if k in buildbase_env:
-                dockerrunenvargs += [ '--env',
-                                      'TRITONBUILD_{}={}'.format(k, buildbase_env[k]) ]
+                dockerrunenvargs += [
+                    '--env', 'TRITONBUILD_{}={}'.format(k, buildbase_env[k])
+                ]
 
         # Before attempting to run the new image, make sure any
         # previous 'tritonserver_builder' container is removed.

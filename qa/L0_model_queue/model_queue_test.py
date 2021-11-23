@@ -25,6 +25,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
+
 sys.path.append("../common")
 
 from builtins import range
@@ -49,7 +50,10 @@ class ModelQueueTest(tu.TestResultCollector):
         self.trials_ = []
         for base in ["custom", "ensemble"]:
             for is_http_trial in [True, False]:
-                self.trials_.append({"base": base, "is_http_trial": is_http_trial})
+                self.trials_.append({
+                    "base": base,
+                    "is_http_trial": is_http_trial
+                })
         global _deferred_exceptions
         _deferred_exceptions = []
 

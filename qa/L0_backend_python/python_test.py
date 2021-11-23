@@ -40,6 +40,7 @@ import tritonclient.http as httpclient
 
 
 class PythonTest(tu.TestResultCollector):
+
     def _infer_help(self, model_name, shape, data_type):
         with httpclient.InferenceServerClient("localhost:8000") as client:
             input_data_0 = np.array(np.random.randn(*shape), dtype=data_type)
@@ -177,7 +178,7 @@ class PythonTest(tu.TestResultCollector):
             result = client.infer(model_name, inputs)
             output0 = result.as_numpy('OUTPUT0')
             self.assertIsNotNone(output0)
-            self.assertTrue(np.all(output0 == input_data))
+            self.assertEqual(np.all(output0, input_data))
 
     def test_infer_pytorch(self):
         model_name = "pytorch_fp32_fp32"
@@ -256,7 +257,6 @@ class PythonTest(tu.TestResultCollector):
                     self.assertTrue(output0[0] == input_data.astype(np.bytes_))
                 else:
                     self.assertEqual(output0.size, 0)
-
 
     def test_non_contiguous(self):
         model_name = 'non_contiguous'

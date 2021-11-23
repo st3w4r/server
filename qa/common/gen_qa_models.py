@@ -27,7 +27,6 @@
 import argparse
 from builtins import range
 import os
-import sys
 import numpy as np
 import gen_ensemble_model_utils as emu
 
@@ -207,8 +206,8 @@ def create_graphdef_modelfile(models_dir,
     else:
         cast1 = tf.cast(sub if not swap else add, tf_output1_dtype, "CAST1")
 
-    out0 = tf.identity(cast0, "OUTPUT0")
-    out1 = tf.identity(cast1, "OUTPUT1")
+    tf.identity(cast0, "OUTPUT0")
+    tf.identity(cast1, "OUTPUT1")
 
     # Use a different model name for the non-batching variant
     model_name = tu.get_model_name(
@@ -360,8 +359,8 @@ def create_savedmodel_modelfile(models_dir,
     else:
         cast1 = tf.cast(sub if not swap else add, tf_output1_dtype, "CAST1")
 
-    out0 = tf.identity(cast0, "TENSOR_OUTPUT0")
-    out1 = tf.identity(cast1, "TENSOR_OUTPUT1")
+    tf.identity(cast0, "TENSOR_OUTPUT0")
+    tf.identity(cast1, "TENSOR_OUTPUT1")
 
     # Use a different model name for the non-batching variant
     model_name = tu.get_model_name(
@@ -580,8 +579,6 @@ def create_plan_dynamic_modelfile(models_dir, max_batch, model_version,
                                   input_dtype, output0_dtype, output1_dtype,
                                   swap, min_dim, max_dim):
     trt_input_dtype = np_to_trt_dtype(input_dtype)
-    trt_output0_dtype = np_to_trt_dtype(output0_dtype)
-    trt_output1_dtype = np_to_trt_dtype(output1_dtype)
 
     # Create the model
     TRT_LOGGER = trt.Logger(trt.Logger.INFO)
@@ -1693,7 +1690,6 @@ if __name__ == '__main__':
 
     if FLAGS.graphdef or FLAGS.savedmodel:
         import tensorflow as tf
-        from tensorflow.python.framework import graph_io, graph_util
     if FLAGS.tensorrt:
         import tensorrt as trt
     if FLAGS.onnx:

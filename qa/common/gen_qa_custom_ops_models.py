@@ -25,9 +25,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import argparse
-from builtins import range
 import os
-import sys
 
 FLAGS = None
 
@@ -42,7 +40,7 @@ def create_zeroout_modelfile(create_savedmodel, models_dir, model_version):
     zin = tf.placeholder(tf.int32, [
         None,
     ], "to_zero")
-    zout = zero_out(zin, name="zeroed")
+    zero_out(zin, name="zeroed")
 
     model_name = "savedmodel_zeroout" if create_savedmodel else "graphdef_zeroout"
     model_version_dir = models_dir + "/" + model_name + "/" + str(model_version)
@@ -120,7 +118,7 @@ def create_cudaop_modelfile(create_savedmodel, models_dir, model_version):
     zin = tf.placeholder(tf.int32, [
         None,
     ], "in")
-    zout = add_one(zin, name="out")
+    add_one(zin, name="out")
 
     model_name = "savedmodel_cudaop" if create_savedmodel else "graphdef_cudaop"
     model_version_dir = models_dir + "/" + model_name + "/" + str(model_version)
@@ -198,7 +196,7 @@ def create_busyop_modelfile(create_savedmodel, models_dir, model_version):
     zin = tf.placeholder(tf.int32, [
         None,
     ], "in")
-    zout = busy_loop(zin, name="out")
+    busy_loop(zin, name="out")
 
     model_name = "savedmodel_busyop" if create_savedmodel else "graphdef_busyop"
     model_version_dir = models_dir + "/" + model_name + "/" + str(model_version)
@@ -501,7 +499,7 @@ if __name__ == '__main__':
 
     if FLAGS.graphdef or FLAGS.savedmodel:
         import tensorflow as tf
-        from tensorflow.python.framework import graph_io, graph_util
+        from tensorflow.python.framework import graph_io
         create_zero_out_models(FLAGS.models_dir)
         create_cuda_op_models(FLAGS.models_dir)
         create_busy_op_models(FLAGS.models_dir)
@@ -509,8 +507,6 @@ if __name__ == '__main__':
     if FLAGS.libtorch:
         import torch
         from torch import nn
-        from torchvision import ops
-        from torch.nn.modules.utils import _pair
         import torch.utils.cpp_extension
         create_modulo_op_models(FLAGS.models_dir)
         create_vision_op_models(FLAGS.models_dir)

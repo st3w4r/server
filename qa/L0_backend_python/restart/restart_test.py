@@ -25,6 +25,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
+
 sys.path.append("../../common")
 
 import test_util as tu
@@ -35,6 +36,7 @@ import unittest
 
 
 class RestartTest(tu.TestResultCollector):
+
     def _infer_helper(self, model_name, shape, data_type):
         with httpclient.InferenceServerClient("localhost:8000") as client:
             input_data_0 = np.array(np.random.randn(*shape), dtype=data_type)
@@ -64,4 +66,3 @@ class RestartTest(tu.TestResultCollector):
 
 if __name__ == '__main__':
     unittest.main()
-

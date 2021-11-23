@@ -26,6 +26,7 @@
 
 import math
 import sys
+
 sys.path.append("../common")
 
 import numpy as np
@@ -262,8 +263,7 @@ class PerfAnalyzerScenario(Scenario):
                 res = 1 if i == 0 else i
                 if dtype == np.float32:
                     res = float(res)
-                elif dtype == np.int32:
-                    # Do nothing
+                # If np.int32, do nothing
                 elif dtype == np.dtype(object):
                     res = str(res)
                 output_data.append(

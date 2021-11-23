@@ -194,9 +194,9 @@ def create_tf_modelfile(create_savedmodel, models_dir, model_version, max_batch,
         newacc = tf.where(tf.equal(ready0, 1), tmp1, acc)
         assign = tf.assign(acc, newacc)
         if tf_input_dtype == tf.string:
-            output0 = tf.dtypes.as_string(assign, name="OUTPUT")
+            tf.dtypes.as_string(assign, name="OUTPUT")
         else:
-            output0 = tf.identity(assign, name="OUTPUT")
+            tf.identity(assign, name="OUTPUT")
     else:
         # For batching we can't use a tf.variable to hold the
         # accumulated values since that forces the size of the output
@@ -221,9 +221,9 @@ def create_tf_modelfile(create_savedmodel, models_dir, model_version, max_batch,
             tf.add(tf.add(start0, input0), tf.multiply(end0, corrid_cast0)),
             tf.zeros(tf.shape(input0), dtype=tf_dtype))
         if tf_input_dtype == tf.string:
-            output0 = tf.dtypes.as_string(tmp, name="OUTPUT")
+            tf.dtypes.as_string(tmp, name="OUTPUT")
         else:
-            output0 = tf.identity(tmp, name="OUTPUT")
+            tf.identity(tmp, name="OUTPUT")
 
     # Use a different model name for the non-batching variant
     if create_savedmodel:
@@ -1368,7 +1368,9 @@ instance_group [
 def create_openvino_modelfile(models_dir, model_version, max_batch, dtype,
                               shape):
 
-    batch_dim = [] if max_batch == 0 else [max_batch,]
+    batch_dim = [] if max_batch == 0 else [
+        max_batch,
+    ]
     if not tu.validate_for_openvino_model(dtype, dtype, dtype,
                                           batch_dim + shape, batch_dim + shape,
                                           batch_dim + shape):
@@ -1405,7 +1407,9 @@ def create_openvino_modelfile(models_dir, model_version, max_batch, dtype,
 def create_openvino_modelconfig(models_dir, model_version, max_batch, dtype,
                                 shape):
 
-    batch_dim = [] if max_batch == 0 else [max_batch,]
+    batch_dim = [] if max_batch == 0 else [
+        max_batch,
+    ]
     if not tu.validate_for_openvino_model(dtype, dtype, dtype,
                                           batch_dim + shape, batch_dim + shape,
                                           batch_dim + shape):
@@ -1619,7 +1623,7 @@ if __name__ == '__main__':
 
     if FLAGS.graphdef or FLAGS.savedmodel:
         import tensorflow as tf
-        from tensorflow.python.framework import graph_io, graph_util
+        from tensorflow.python.framework import graph_io
     if FLAGS.tensorrt or FLAGS.tensorrt_shape_io:
         import tensorrt as trt
     if FLAGS.onnx:

@@ -25,10 +25,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import argparse
-from builtins import range
 import os
-import sys
-
 import numpy as np
 
 
@@ -154,13 +151,9 @@ def create_savedmodel_modelfile(models_dir, model_version, dtype):
 
     output_expander = tf.reshape(tf.divide(bs_node, bs_node), [-1, 1])
 
-    out_node = tf.matmul(output_expander, in_mat, name="TENSOR_RAGGED_OUTPUT")
-    bs_out_node = tf.matmul(output_expander,
-                            bs_mat,
-                            name="TENSOR_BATCH_AND_SIZE_OUTPUT")
-    batch_out_node = tf.matmul(output_expander,
-                               batch_mat,
-                               name="TENSOR_BATCH_OUTPUT")
+    tf.matmul(output_expander, in_mat, name="TENSOR_RAGGED_OUTPUT")
+    tf.matmul(output_expander, bs_mat, name="TENSOR_BATCH_AND_SIZE_OUTPUT")
+    tf.matmul(output_expander, batch_mat, name="TENSOR_BATCH_OUTPUT")
 
     model_name = "savedmodel_batch_input"
     model_version_dir = models_dir + "/" + model_name + "/" + str(model_version)
@@ -525,7 +518,6 @@ if __name__ == '__main__':
         import tensorrt as trt
     if FLAGS.graphdef or FLAGS.savedmodel:
         import tensorflow as tf
-        from tensorflow.python.framework import graph_io, graph_util
     if FLAGS.onnx:
         import onnx
 

@@ -25,6 +25,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
+
 sys.path.append("../common")
 
 import unittest
@@ -62,9 +63,9 @@ class UnknownRankTest(tu.TestResultCollector):
         try:
             self.infer_unknown(model_name, tensor_shape)
         except InferenceServerException as ex:
-            self.assertTrue("tensor \'OUTPUT\': the model expects 1 dimensions " \
+            self.assertIn("tensor \'OUTPUT\': the model expects 1 dimensions " \
                 "(shape [1]) but the model configuration specifies 2 dimensions " \
-                "(shape [1,1])" in ex.message())
+                "(shape [1,1])", ex.message())
 
 
 if __name__ == '__main__':

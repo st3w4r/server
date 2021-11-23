@@ -26,6 +26,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
+
 sys.path.append("../common")
 
 import unittest
@@ -76,11 +77,11 @@ class InferTest(tu.TestResultCollector):
         # Validate the results by comparing with precomputed values.
         for i in range(16):
             print(
-                str(input0_data[0][i]) + " - " + str(input1_data[0][i]) + " = " +
-                str(output0_data[0][i]))
+                str(input0_data[0][i]) + " - " + str(input1_data[0][i]) +
+                " = " + str(output0_data[0][i]))
             print(
-                str(input0_data[0][i]) + " + " + str(input1_data[0][i]) + " = " +
-                str(output1_data[0][i]))
+                str(input0_data[0][i]) + " + " + str(input1_data[0][i]) +
+                " = " + str(output1_data[0][i]))
             if (input0_data[0][i] - input1_data[0][i]) != output0_data[0][i]:
                 print("sync infer error: incorrect difference")
                 sys.exit(1)

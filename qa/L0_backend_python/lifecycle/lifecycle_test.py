@@ -25,6 +25,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
+
 sys.path.append("../../common")
 
 import test_util as tu
@@ -35,6 +36,7 @@ import unittest
 
 
 class LifecycleTest(tu.TestResultCollector):
+
     def test_batch_error(self):
         # The execute_error model returns an error for the first request and
         # sucessfully processes the second request.  This is making sure that
@@ -96,6 +98,7 @@ class LifecycleTest(tu.TestResultCollector):
                 self.assertTrue(
                     False,
                     "Wrong exception raised or did not raise an exception")
+
 
 if __name__ == '__main__':
     unittest.main()

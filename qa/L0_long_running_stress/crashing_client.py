@@ -25,6 +25,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
+
 sys.path.append("../common")
 
 import numpy as np
@@ -58,7 +59,7 @@ def crashing_client(model_name,
         count = np.ndarray((1,), dtype=np.int32, buffer=existing_shm.buf)
         count[0] += 1
         existing_shm.close()
-        results = triton_client.infer(model_name, inputs)
+        triton_client.infer(model_name, inputs)
 
 
 if __name__ == '__main__':
